@@ -1,0 +1,47 @@
+FLUXO DO SCRIPT BOT:
+
+Perfeito! Vamos seguir o mesmo passo a passo, só ajustando para o SQLite. Então, vai ser assim:
+
+1👉 Defina um ambiente de desenvolvimento (projeto no VS Code, ou ambiente virtual com venv).[FEITO]
+
+2👉 Instale as bibliotecas necessárias: sqlite3 (que já vem com Python), pandas (caso você queira manipular dados), pywhatkit (para WhatsApp), e requests (caso use API).
+
+
+3👉 Planeje a estrutura do banco: defina uma tabela (por exemplo, clientes) com colunas como nome, telefone, status de pagamento, etc.
+
+
+4👉 Crie o banco de dados e a tabela no início do script, se ainda não existir.
+
+
+5👉 Crie um script que faça uma consulta SQL: selecione os clientes com status inadimplente.
+
+
+6👉 Teste a consulta: veja se os dados retornam corretamente e se você filtra só quem deve.
+
+
+7👉 Integre o pywhatkit: depois de ter a lista de inadimplentes, use o pywhatkit para enviar mensagens de lembrete via WhatsApp.
+
+
+8👉 Caso você precise, no passo seguinte, use o requests para integrar com uma API de pagamentos, se for o caso.
+
+
+9👉 Teste o fluxo todo, veja se os lembretes estão chegando, e se o banco registra certinho.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Substituir a checagem de inadimplentes:
+Conectar no banco SQLite.
+Escrever uma consulta SQL para buscar os inadimplentes.
+Armazenar o resultado em uma lista ou DataFrame.
+Gerar boleto/link de pagamento:
+Usar uma API (ou biblioteca) de geração de boletos ou links.
+Associar o boleto ao cliente inadimplente.
+Enviar lembrete no WhatsApp:
+Integrar com a API do WhatsApp (pode ser o Twilio, por exemplo).
+Programar o envio automático do lembrete para cada cliente.
+Bibliotecas usadas:
+Importar sqlite3 (para o banco SQLite).
+Usar requests (para chamadas HTTP na geração do boleto e WhatsApp).
+Se precisar de tratamento de dados, importar pandas (caso queira transformar o resultado em tabela, por exemplo).
+
+Se precisar de mais algum ajuste ou detalhe, me fala!
