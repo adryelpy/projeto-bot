@@ -13,16 +13,26 @@ class MeuBanco:
             CPF TEXT,
             DATA_NASCIMENTO DATE,
             VALOR_DIVIDA REAL,
-            STATUS_PAGAMENTO TEXT DEFAULT 'pendente',
-            TELEFONE TEXT
+            TELEFONE TEXT,
+            STATUS_CLIENT TEXT DEFAULT 'pendente'
         )                            
         ''')
         self.conn.commit()
     
-    def criar_usuarios(self, nome,cpf,data_nascimento,valor_divida,telefone):
+    def criar_usuarios(self, nome,cpf,data_nascimento,valor_divida,telefone,status_client):
         self.cursor.execute(
-        'INSERT INTO clientes_inadimplentes (nome,cpf,data_nascimento,valor_divida,telefone) VALUES (?,?,?,?,?)',
-        (nome,cpf,data_nascimento,valor_divida,telefone)
+        'INSERT INTO clientes_inadimplentes (nome,cpf,data_nascimento,valor_divida,telefone,status_client) VALUES (?,?,?,?,?,?)',
+        (nome,cpf,data_nascimento,valor_divida,telefone,status_client)
 
         )
         self.conn.commit()
+
+                       
+    def consulta_status(self,status_client):
+        self.cursor.execute(
+            'SELECT TELEFONE FROM clientes_inadimplentes WHERE STATUS_CLIENT = ?',
+            (status_client,)
+        )
+        resultados = self.cursor.fetchall() # pega todos os resultados e transforma em uma lista de tuplas
+        return resultados                   # aqui estamos retornando esta lista de tuplas
+
