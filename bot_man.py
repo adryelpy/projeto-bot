@@ -1,5 +1,7 @@
 from banco_SQLlite import MeuBanco
 import pywhatkit as pwk
+import barcode
+from barcode.writer import ImageWriter
 opcao = input('Deseja entrar no programa? [s]/[n]').lower().strip()
 
 while opcao == 's':
@@ -42,7 +44,7 @@ while opcao == 's':
              print('valor invalido!')
              continue
           
-          # Consulta todos os clientes com o status q foi escolhido a cima e enviar uma mensagem com o pywhatkit se tiver duvidas abra o arquivo README[R1]👇
+          # Consulta todos os clientes com o status q foi escolhido a cima e enviar uma mensagem com o pywhatkit. se tiver duvidas abra o arquivo README[R1]👇
           tupla_elemt = bancoIns.consulta_status(status_client)
           lista_tel_inadimplente = []
           CODIGO_PAIS = '+55'
@@ -51,44 +53,44 @@ while opcao == 's':
              for numero in i:
                 numero_formatado = CODIGO_PAIS + numero
                 lista_tel_inadimplente.append(numero_formatado)
-             print(lista_tel_inadimplente)
+          print(lista_tel_inadimplente)
 
 
           escolha2 = input(f'Deseja enviar uma mensagem para os usuarios {status_client} ? [S] / [N]')
-          badeira = None
-
+          
           if escolha2.lower() == 's':
+             # este codigo esta explicado no README[R2]
+             print('---------SERÁ GERADO UM BOLETO COM O VALOR DA DIVIDA DO INADIMPLENTE---------')
+             print('')
+             codigo_barras = input('Copie e cole a baixo a linha digitavel para gera um boleto:\n')                   
+             #Exemplo de linha digitavel para boleto: 12345 67890 12345 67890 123456789
+             codigo = barcode.get('code128', codigo_barras, writer=ImageWriter())                  
+             codigo.save('boleto')
+
              mensagem = 'Ola estamos entrando em contado para analise de dividas para inadimplentes da nossa filial (Santader)'
              for i in range(len(lista_tel_inadimplente)):
-                pwk.sendwhatmsg(lista_tel_inadimplente[i], mensagem, 23,23)
-                badeira = True
+                pwk.sendwhats_image(                #ATENÇÃO! AQUI PODE GERAR UM ERRO 'q ira precisar instalar um arquivo' ABRA O README[R3]
+                   lista_tel_inadimplente[i],
+                   'boleto.png',
+                   mensagem,
+                   15,
+                   tab_close=True
+                )
 
-          print(badeira)
-         #continuar teste de bandeira aqui...
-             
-          ...
+
+
+                #instalamos o (pip install pyboleto) para gera boletos e enviar para os inadimplentes
     except ValueError as e:
         print(f'ERRO {e}')
         print(f'O usuario digitou {escolha} digite um numero valido!')
         continue
         
-
     opcao = input('Deseja continuar no programa? [s]/[n]').lower().strip()
 else:
     print('Saindo do programa...')
     quit()
 
 
-'''
- A ideia principal é que, depois que o usuário escolher a opção 2,
-
- 1. a gente pegue os números de telefone que a gente filtrou e, CONTINUAR DAQUI
-
- para cada um deles, use o PyWhatKit para mandar uma mensagem. Vou te dar um passo a passo. 
- Primeiro, a gente precisa garantir que o número do telefone está no formato internacional, 
- com código do país. Depois, a gente vai definir o horário de envio (por exemplo, colocar o horário atual mais um minutinho, 
- já que o PyWhatKit precisa desse tempo) e então chamar a função.
-'''
 
 
 
